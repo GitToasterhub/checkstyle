@@ -24,7 +24,9 @@
     <section name="AtclauseOrder">
       <subsection name="Description">
         <p>
-          Checks the order of at-clauses.
+          Checks the order of <a href="http://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html#CHDBEFIF">javadoc block-tags or javadoc tags</a>.
+          <br/>
+          Note: Google used term "at-clauses" for block tags in his guide till 2017-02-28.
         </p>
       </subsection>
 
@@ -1581,7 +1583,8 @@ public boolean isSomething()
       <subsection name="Description">
         <p>
           Checks that <a href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html#firstsentence">
-          Javadoc summary sentence</a> does not contain phrases that are not recommended to use.
+          Javadoc summary sentence</a> does not contain phrases that are not recommended to use. Summaries that contain
+          only the <code>{@inheritDoc}</code> tag are skipped.
         </p>
       </subsection>
 
@@ -1614,6 +1617,29 @@ public boolean isSomething()
         </p>
         <source>
 &lt;module name=&quot;SummaryJavadocCheck&quot;/&gt;
+        </source>
+        <p>
+          Example of <code>{@inheritDoc}</code> without summary.
+        </p>
+        <source>
+          <![CDATA[
+  public class Test extends Exception {
+  //Valid
+    /**
+     * {@inheritDoc}
+     */
+    public String ValidFunction(){
+      return "";
+    }
+    //Violation
+    /**
+     *
+     */
+    public String InvalidFunction(){
+      return "";
+    }
+  }
+        ]]>
         </source>
         <p>
           To ensure that summary do not contain phrase like "This method returns" , use following config:
